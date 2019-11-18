@@ -7,5 +7,5 @@ class Activity(models.Model):
     heartrate = models.PositiveIntegerField()
     type = models.PositiveIntegerField()
 
-    def __str__():
-        return str(date // 10000) + "-" + str((date // 100) % 100) + "-" + str(date % 100) + " " + str(time // 60) + ":" + str(time % 60)
+    def __str__(self):
+        return str(self.date // 10000) + "-" + str((self.date // 100) % 100) + "-" + str(self.date % 100) + " " + str(self.time // 60) + ":" + str(self.time % 60)
