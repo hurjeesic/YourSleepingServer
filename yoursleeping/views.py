@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from .models import Activity
 from .forms import ActivityForm
 from .serializers import ActivitySerializer
-
+# 참고 : https://inma.tistory.com/88
 class ActivityList(APIView):
     def post(self, request, format=None):
         serializers = ActivitySerializer(data=request.data)
@@ -58,6 +58,27 @@ def data_list(request):
     datas = Activity.objects.filter().order_by('date') #.order_by('time')
 
     return render(request, 'yoursleeping/data_list.html', { 'datas' : datas })
+
+def data_add(request):
+    try:
+        if request.method == "POST":
+            form = PostForm(request.POST)
+            if form.is_valid():
+                data = form.save(commit=False)
+                data.date = request.date
+                data.time = request.time
+                data.heartrate = request.heartrate
+                data.type = request.type
+                data.save()
+    except Exception as exception:
+        return JsonResponse({
+            'success' : False,
+            'exception' : exception
+        }, json_dumps_params = { 'ensure_ascii' : True})
+
+    return JsonResponse({
+        'success' : True,
+    }, json_dumps_params = { 'ensure_ascii' : True})
 
 def data_delete(request):
     try:
