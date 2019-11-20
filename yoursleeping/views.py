@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Activity
 from .forms import ActivityForm
 from .serializers import ActivitySerializer
+
 # 참고 : https://inma.tistory.com/88
 class ActivityList(APIView):
     def post(self, request, format=None):
@@ -59,17 +61,13 @@ def data_list(request):
 
     return render(request, 'yoursleeping/data_list.html', { 'datas' : datas })
 
+@csrf_exempt
 def data_add(request):
     try:
         if request.method == "POST":
-            form = PostForm(request.POST)
+            form = ActivityForm(request.POST)
             if form.is_valid():
-                data = form.save(commit=False)
-                data.date = request.date
-                data.time = request.time
-                data.heartrate = request.heartrate
-                data.type = request.type
-                data.save()
+                data = form.save(commit=True)
     except Exception as exception:
         return JsonResponse({
             'success' : False,
