@@ -1,10 +1,11 @@
 {% extends 'yoursleeping/base.html' %}
 {% block content %}
   <div class="content container">
+    {{ size }}
     {% for data in datas %}
       <div class="row">
         <div class="col-md-8">
-          {{ data }} -> {{ data.heartrate }}, {{ data.type }}
+          {{ data }} -> {{ data.heart_rate }}, {{ data.type }}, {{ data.sleep_time }}
         </div>
       </div>
     {% endfor %}

@@ -6,4 +6,4 @@ class ActivityForm(forms.ModelForm):
 
     class Meta:
         model = Activity
-        fields = ('date', 'time', 'heartrate', 'type',)
+        fields = ('date', 'time', 'heart_rate', 'type', 'sleep_time',)
